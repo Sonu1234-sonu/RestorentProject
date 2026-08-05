@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme { --font-serif: Georgia, Cambria, "Times New Roman", serif; }
+html { background: #171411; }
+body { margin: 0; min-width: 320px; min-height: 100%; background: #171411; color: #f5f5f4; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+::selection { background: #fbbf24; color: #171411; }
+.eyebrow { color: #fcd34d; font-size: .73rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+.gallery-hero, .menu-hero { background-image: linear-gradient(90deg, rgba(24,20,16,.92), rgba(24,20,16,.42)), url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85'); background-size: cover; background-position: center; box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
+.gallery-hero { background-image: linear-gradient(90deg, rgba(24,20,16,.9), rgba(24,20,16,.28)), url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1800&q=85'); }
+.gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .85rem; }
+.gallery-card { position: relative; min-height: 220px; overflow: hidden; border-radius: 1.4rem; text-align: left; background: #292524; }
+.gallery-card img { height: 100%; width: 100%; position: absolute; inset: 0; object-fit: cover; transition: transform .5s ease; }
+.gallery-card:hover img { transform: scale(1.07); }
+.gallery-card span { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: end; padding: 1rem; background: linear-gradient(transparent 35%, rgba(0,0,0,.78)); color: white; }
+.gallery-card small { color: #fcd34d; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }.gallery-card strong { font-family: Georgia, serif; font-size: 1.45rem; }.gallery-card b { margin-top: .3rem; font-size: .75rem; opacity: 0; transform: translateY(5px); transition: .25s; }.gallery-card:hover b { opacity: 1; transform: none; }
+.menu-card { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 1.35rem; background: #211e1b; box-shadow: 0 14px 35px rgba(0,0,0,.16); transition: transform .25s, border-color .25s; }.menu-card:hover { transform: translateY(-4px); border-color: rgba(251,191,36,.65); }.menu-card img { height: 210px; width: 100%; object-fit: cover; transition: transform .5s ease; }.menu-card:hover img { transform: scale(1.05); }
+@media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.25rem; }.gallery-card { min-height: 270px; }.gallery-card--tall { grid-row: span 2; min-height: 560px; } }
+@media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }.gallery-card { min-height: 250px; } }
