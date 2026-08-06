@@ -9,8 +9,6 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 5000
 
-connectDB()
-
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) {
@@ -41,6 +39,16 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message || 'Server error' })
 })
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
-})
+const startServer = async () => {
+    try {
+        await connectDB()
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`)
+        })
+    } catch (error) {
+        console.error(`MongoDB connection error: ${error.message}`)
+        process.exit(1)
+    }
+}
+
+startServer()

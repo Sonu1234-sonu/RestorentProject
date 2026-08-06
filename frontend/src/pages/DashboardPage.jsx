@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -121,6 +122,19 @@ const statuses = {
   seating: ["Indoor", "Outdoor"],
   discountType: ["percentage", "fixed"],
 };
+const sidebarIcons = {
+  overview: "◈",
+  users: "◉",
+  menu: "⌘",
+  reservations: "◷",
+  orders: "▣",
+  inventory: "◫",
+  events: "✦",
+  coupons: "◇",
+  reviews: "★",
+  employees: "♙",
+  messages: "✉",
+};
 const title = (field) =>
   field.replace(/([A-Z])/g, " $1").replace(/^./, (char) => char.toUpperCase());
 const isToday = (value) =>
@@ -145,6 +159,7 @@ function DashboardPage() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const token = localStorage.getItem("barToken");
   const headers = useMemo(
     () => ({ Authorization: `Bearer ${token}` }),
@@ -166,6 +181,11 @@ function DashboardPage() {
       setError(err.response?.data?.error || "Could not load admin data.");
     }
   };
+  const handleLogout = () => {
+    localStorage.removeItem("barToken");
+    navigate("/login");
+  };
+
   useEffect(() => {
     (async () => {
       if (!token) {
@@ -289,49 +309,109 @@ function DashboardPage() {
     JSON.stringify(item).toLowerCase().includes(query.toLowerCase()),
   );
   return (
-    <div className="space-y-6">
-      <section className="rounded-[2rem] border border-amber-300/20 bg-stone-900 p-6 sm:p-9">
-        <p className="eyebrow">Admin control centre</p>
-        <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-serif text-4xl font-bold text-white">
-              Good to see you, {profile?.name}.
-            </h1>
-            <p className="mt-2 max-w-2xl text-stone-400">
-              Manage every part of Dangi Restorent from one place.
+    <div className="space-y-6 pb-6">
+      <section className="relative overflow-hidden rounded-[2rem] border border-amber-300/20 bg-gradient-to-br from-stone-900 via-stone-900 to-rose-950/40 p-6 shadow-2xl shadow-black/20 sm:p-9">
+        <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-amber-400/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-rose-500/10 blur-3xl" />
+        <div className="relative">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-200">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-300" /> Admin
+              control centre
+            </p>
+            <p className="text-xs font-medium text-stone-400">
+              Live restaurant overview
             </p>
           </div>
-          <button
-            onClick={load}
-            className="rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-white hover:border-amber-300"
-          >
-            Refresh data
-          </button>
+          <div className="mt-5 flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                Good to see you, {profile?.name}.
+              </h1>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-300 sm:text-base">
+                Keep every service detail moving smoothly from one elegant
+                workspace.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={load}
+                className="rounded-full border border-amber-300/30 bg-stone-950/40 px-5 py-2.5 text-sm font-bold text-amber-100 transition hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-300 hover:text-stone-950"
+              >
+                Refresh data
+              </button>
+              <button
+                onClick={handleLogout}
+                className="rounded-full border border-amber-300/30 bg-transparent px-5 py-2.5 text-sm font-bold text-amber-100 transition hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-300/10 hover:text-rose-100"
+              >
+                Log out
+              </button>
+            </div>
+          </div>
         </div>
       </section>
-      <div className="grid gap-6 xl:grid-cols-[220px_1fr]">
-        <aside className="h-fit rounded-[1.5rem] border border-white/10 bg-stone-900 p-3 xl:sticky xl:top-24">
-          <button
-            onClick={() => {
-              setActive("overview");
-              setEditing(null);
-            }}
-            className={`w-full rounded-xl px-4 py-3 text-left text-sm font-bold ${active === "overview" ? "bg-amber-400 text-stone-950" : "text-stone-300 hover:bg-white/10"}`}
+      <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <aside className="h-fit overflow-hidden rounded-[1.75rem] border border-amber-300/15 bg-gradient-to-b from-stone-900 via-stone-900 to-stone-950 shadow-2xl shadow-black/25 lg:sticky lg:top-24 lg:flex lg:max-h-[calc(100vh-7rem)] lg:flex-col">
+          <div className="border-b border-white/10 bg-gradient-to-br from-amber-300/15 via-transparent to-rose-400/10 px-5 py-5">
+            <div className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-amber-400 font-serif text-lg font-black text-stone-950 shadow-lg shadow-amber-400/20">
+                D
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-amber-300">
+                  Admin space
+                </p>
+                <p className="mt-1 font-serif text-lg font-bold text-white">
+                  Dangi Restorent
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 flex items-center gap-2 text-xs text-stone-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(74,222,128,0.8)]" />
+              Signed in as {profile?.name || "Administrator"}
+            </div>
+          </div>
+          <nav
+            className="flex gap-2 overflow-x-auto p-3 scrollbar-none lg:block lg:min-h-0 lg:flex-1 lg:space-y-1 lg:overflow-y-auto lg:overflow-x-hidden lg:pr-2"
+            aria-label="Dashboard sections"
           >
-            Dashboard
-          </button>
-          {Object.entries(sections).map(([key, item]) => (
             <button
-              key={key}
               onClick={() => {
-                setActive(key);
+                setActive("overview");
                 setEditing(null);
               }}
-              className={`w-full rounded-xl px-4 py-3 text-left text-sm font-semibold ${active === key ? "bg-amber-400 text-stone-950" : "text-stone-300 hover:bg-white/10"}`}
+              className={`group flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-bold transition duration-200 lg:w-full ${active === "overview" ? "bg-amber-400 text-stone-950 shadow-lg shadow-amber-400/15" : "text-stone-300 hover:bg-white/10 hover:text-white"}`}
             >
-              {item.label}
+              <span
+                className={`grid h-7 w-7 place-items-center rounded-lg text-base ${active === "overview" ? "bg-stone-950/10" : "bg-white/5 text-amber-300 group-hover:bg-amber-300/10"}`}
+              >
+                {sidebarIcons.overview}
+              </span>
+              Dashboard
             </button>
-          ))}
+            <p className="hidden px-4 pb-2 pt-5 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 lg:block">
+              Management
+            </p>
+            <div className="flex gap-2 lg:block lg:space-y-1">
+              {Object.entries(sections).map(([key, item]) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setActive(key);
+                    setEditing(null);
+                  }}
+                  className={`group flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition duration-200 lg:w-full ${active === key ? "bg-amber-400 text-stone-950 shadow-lg shadow-amber-400/15" : "text-stone-300 hover:bg-white/10 hover:text-white"}`}
+                >
+                  <span
+                    className={`grid h-7 w-7 place-items-center rounded-lg text-base ${active === key ? "bg-stone-950/10" : "bg-white/5 text-amber-300 group-hover:bg-amber-300/10"}`}
+                  >
+                    {sidebarIcons[key]}
+                  </span>
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </nav>
         </aside>
         <main>
           {active === "overview" ? (
@@ -368,16 +448,22 @@ function Overview({ stats, data, setActive }) {
   ];
   return (
     <div className="space-y-6">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map(([label, value]) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map(([label, value], index) => (
           <div
             key={label}
-            className="rounded-[1.35rem] border border-white/10 bg-stone-900 p-5"
+            className="group relative overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-br from-stone-900 to-stone-950 p-5 transition duration-300 hover:-translate-y-1 hover:border-amber-300/35 hover:shadow-xl hover:shadow-black/20"
           >
-            <p className="text-sm text-stone-400">{label}</p>
-            <p className="mt-2 font-serif text-3xl font-bold text-white">
+            <div className="absolute -right-3 -top-4 text-6xl font-serif text-amber-300/[0.06] transition group-hover:scale-110 group-hover:text-amber-300/[0.12]">
+              0{index + 1}
+            </div>
+            <p className="relative text-sm font-medium text-stone-400">
+              {label}
+            </p>
+            <p className="relative mt-2 font-serif text-3xl font-bold text-white">
               {value}
             </p>
+            <div className="relative mt-4 h-px w-10 bg-gradient-to-r from-amber-300 to-transparent transition-all duration-300 group-hover:w-16" />
           </div>
         ))}
       </div>

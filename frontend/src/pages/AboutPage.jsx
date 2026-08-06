@@ -30,11 +30,12 @@ function AboutPage() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950/70 shadow-xl shadow-slate-950/40">
+          <div className="relative overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950/70 shadow-xl shadow-slate-950/40 h-[420px] sm:h-[520px]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,82,82,0.17),_transparent_34%)]" />
             <img
-              src="https://images.unsplash.com/photo-1541544180-21d1bfc6808f?auto=format&fit=crop&w=1000&q=80"
+              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80"
               alt="Restaurant interior"
+              loading="lazy"
               className="h-full w-full object-cover"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 via-slate-950/0 p-6">

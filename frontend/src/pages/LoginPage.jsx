@@ -20,7 +20,7 @@ function LoginPage() {
       );
       localStorage.setItem("barToken", response.data.token);
       toast.success("Logged in successfully");
-      navigate("/");
+      navigate(response.data.user.role === "admin" ? "/dashboard" : "/");
     } catch (error) {
       toast.error(error.response?.data?.error || "Login failed");
     }

@@ -35,6 +35,7 @@ function Navbar() {
         </nav>
         <div className="hidden items-center gap-2 sm:flex">
           {token && <NavLink to="/profile" className="rounded-full px-3 py-2 text-sm font-medium text-stone-300 hover:text-white">Profile</NavLink>}
+          {token && <NavLink to="/dashboard" className="rounded-full px-3 py-2 text-sm font-medium text-stone-300 hover:text-white">Dashboard</NavLink>}
           {token ? <button onClick={handleLogout} className="rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:border-amber-300">Log out</button> : <NavLink to="/login" className="rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:border-amber-300">Log in</NavLink>}
           <NavLink to="/reserve" className="rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-stone-950 transition hover:bg-amber-300">Reserve a table</NavLink>
         </div>
@@ -43,6 +44,7 @@ function Navbar() {
       {open && <div className="border-t border-white/10 bg-stone-950 px-4 py-4 lg:hidden">
         <nav className="mx-auto grid max-w-7xl gap-1 sm:grid-cols-2">
           {links.map((link) => <NavLink key={link.to} to={link.to} onClick={closeMenu} className={navClass}>{link.label}</NavLink>)}
+          {token && <NavLink to="/dashboard" onClick={closeMenu} className={navClass}>Dashboard</NavLink>}
           <NavLink to="/reserve" onClick={closeMenu} className="mt-2 rounded-full bg-amber-400 px-4 py-2 text-center text-sm font-bold text-stone-950">Reserve a table</NavLink>
         </nav>
       </div>}
