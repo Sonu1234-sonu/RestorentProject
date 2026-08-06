@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const API = "http://localhost:5000/api";
+const API = "https://restorentproject.onrender.com/api";
 const sections = {
   users: {
     label: "Users",

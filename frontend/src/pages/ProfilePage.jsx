@@ -15,7 +15,7 @@ function ProfilePage() {
 
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/auth/profile",
+          "https://restorentproject.onrender.com/api/auth/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           },

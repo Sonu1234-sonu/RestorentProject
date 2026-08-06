@@ -12,7 +12,8 @@ const featuredEvents = [
     title: "Late Night Jazz Sessions",
     date: "Every Friday · 8:00 PM",
     category: "Live music",
-    description: "Settle in for cocktails and a rotating trio playing soul, jazz and after-dark classics.",
+    description:
+      "Settle in for cocktails and a rotating trio playing soul, jazz and after-dark classics.",
     imageUrl: fallbackImages[0],
   },
   {
@@ -20,7 +21,8 @@ const featuredEvents = [
     title: "Golden Hour",
     date: "Monday–Thursday · 5–7 PM",
     category: "Happy hour",
-    description: "A little extra glow for the end of the day, with select drinks and small plates at special prices.",
+    description:
+      "A little extra glow for the end of the day, with select drinks and small plates at special prices.",
     imageUrl: fallbackImages[1],
   },
   {
@@ -28,7 +30,8 @@ const featuredEvents = [
     title: "Karaoke After Dark",
     date: "Every Saturday · 9:30 PM",
     category: "Late night",
-    description: "Pick your anthem, take the mic and let the room do the rest. Walk-ins are always welcome.",
+    description:
+      "Pick your anthem, take the mic and let the room do the rest. Walk-ins are always welcome.",
     imageUrl: fallbackImages[2],
   },
 ];
@@ -40,7 +43,9 @@ function EventsPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/events");
+        const response = await axios.get(
+          "https://restorentproject.onrender.com/api/events",
+        );
         setEvents(response.data.events || []);
       } catch (error) {
         console.error("Could not load events:", error);
@@ -65,7 +70,9 @@ function EventsPage() {
       </section>
 
       {loading ? (
-        <p className="rounded-[2rem] border border-slate-800 bg-slate-950/80 p-10 text-slate-400">Loading upcoming events…</p>
+        <p className="rounded-[2rem] border border-slate-800 bg-slate-950/80 p-10 text-slate-400">
+          Loading upcoming events…
+        </p>
       ) : (
         <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {displayedEvents.map((event, index) => (
@@ -74,16 +81,37 @@ function EventsPage() {
               className="overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950/80 shadow-lg shadow-slate-950/20"
             >
               {event.videoUrl ? (
-                <video className="h-56 w-full bg-slate-900 object-cover" controls preload="metadata" poster={event.imageUrl || fallbackImages[index % fallbackImages.length]}>
+                <video
+                  className="h-56 w-full bg-slate-900 object-cover"
+                  controls
+                  preload="metadata"
+                  poster={
+                    event.imageUrl ||
+                    fallbackImages[index % fallbackImages.length]
+                  }
+                >
                   <source src={event.videoUrl} />
                   Your browser does not support event videos.
                 </video>
               ) : (
-                <img className="h-56 w-full object-cover" src={event.imageUrl || fallbackImages[index % fallbackImages.length]} alt={`${event.title} event`} loading="lazy" onError={(e) => { e.currentTarget.src = fallbackImages[index % fallbackImages.length]; }} />
+                <img
+                  className="h-56 w-full object-cover"
+                  src={
+                    event.imageUrl ||
+                    fallbackImages[index % fallbackImages.length]
+                  }
+                  alt={`${event.title} event`}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      fallbackImages[index % fallbackImages.length];
+                  }}
+                />
               )}
               <div className="p-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.24em] text-rose-300">
-                  {event.date}{event.category ? ` · ${event.category}` : ""}
+                  {event.date}
+                  {event.category ? ` · ${event.category}` : ""}
                 </p>
                 <h2 className="mt-3 text-2xl font-semibold text-white">
                   {event.title}

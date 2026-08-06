@@ -22,7 +22,10 @@ function ReservePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/reservations", form);
+      await axios.post(
+        "https://restorentproject.onrender.com/api/reservations",
+        form,
+      );
       toast.success("Reservation submitted successfully");
       setForm({
         name: "",

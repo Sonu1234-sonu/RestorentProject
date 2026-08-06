@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const API = "http://localhost:5000/api";
+const API = "https://restorentproject.onrender.com/api";
 
 function OrderPage() {
   const [cart, setCart] = useState([]);
@@ -13,7 +13,8 @@ function OrderPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    axios.get(`${API}/menu`)
+    axios
+      .get(`${API}/menu`)
       .then((response) => setMenuItems(response.data.items || []))
       .catch(() => toast.error("Could not load the menu"))
       .finally(() => setLoadingMenu(false));
@@ -46,7 +47,8 @@ function OrderPage() {
     0,
   );
   const submitOrder = async () => {
-    if (!cart.length) return toast.error("Add an item before placing your order");
+    if (!cart.length)
+      return toast.error("Add an item before placing your order");
     try {
       setSubmitting(true);
       const token = localStorage.getItem("barToken");
@@ -54,10 +56,19 @@ function OrderPage() {
 
       const response = await axios.post(
         `${API}/orders`,
-        { items: cart.map((item) => ({ menuItem: item._id, quantity: item.quantity })), deliveryType, coupon },
+        {
+          items: cart.map((item) => ({
+            menuItem: item._id,
+            quantity: item.quantity,
+          })),
+          deliveryType,
+          coupon,
+        },
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      toast.success(`Order submitted — total $${response.data.order.total.toFixed(2)}`);
+      toast.success(
+        `Order submitted — total $${response.data.order.total.toFixed(2)}`,
+      );
       setCart([]);
       setCoupon("");
     } catch (error) {
@@ -81,24 +92,34 @@ function OrderPage() {
         <div className="space-y-6 rounded-[2rem] border border-slate-800 bg-slate-950/80 p-8 shadow-xl shadow-slate-950/40 ring-1 ring-slate-700/70">
           <h2 className="text-2xl font-semibold text-white">Menu Items</h2>
           <div className="grid gap-4">
-            {loadingMenu ? <p className="text-slate-400">Loading menu…</p> : menuItems.length === 0 ? <p className="text-slate-400">No menu items are currently available.</p> : menuItems.map((item) => (
-              <div
-                key={item._id}
-                className="flex items-center justify-between rounded-3xl bg-slate-900/80 p-4"
-              >
-                <div>
-                  <p className="font-semibold text-white">{item.name}</p>
-                  <p className="text-sm text-slate-400">${Number(item.price).toFixed(2)}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => addItem(item)}
-                  className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-rose-400"
+            {loadingMenu ? (
+              <p className="text-slate-400">Loading menu…</p>
+            ) : menuItems.length === 0 ? (
+              <p className="text-slate-400">
+                No menu items are currently available.
+              </p>
+            ) : (
+              menuItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center justify-between rounded-3xl bg-slate-900/80 p-4"
                 >
-                  Add
-                </button>
-              </div>
-            ))}
+                  <div>
+                    <p className="font-semibold text-white">{item.name}</p>
+                    <p className="text-sm text-slate-400">
+                      ${Number(item.price).toFixed(2)}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => addItem(item)}
+                    className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-rose-400"
+                  >
+                    Add
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -113,7 +134,9 @@ function OrderPage() {
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <p className="font-semibold text-white">{item.name}</p>
-                      <p className="text-sm text-slate-400">${Number(item.price).toFixed(2)}</p>
+                      <p className="text-sm text-slate-400">
+                        ${Number(item.price).toFixed(2)}
+                      </p>
                     </div>
                     <input
                       type="number"
@@ -154,10 +177,15 @@ function OrderPage() {
                 <option>Delivery</option>
               </select>
             </div>
-            <p className="mt-4 text-xs text-slate-400">Your final total, including any valid coupon, is confirmed when the order is placed.</p>
+            <p className="mt-4 text-xs text-slate-400">
+              Your final total, including any valid coupon, is confirmed when
+              the order is placed.
+            </p>
             <div className="mt-6 flex items-center justify-between text-white">
               <span className="font-semibold">Total</span>
-              <span className="text-xl font-semibold">${subtotal.toFixed(2)}</span>
+              <span className="text-xl font-semibold">
+                ${subtotal.toFixed(2)}
+              </span>
             </div>
           </div>
           <button

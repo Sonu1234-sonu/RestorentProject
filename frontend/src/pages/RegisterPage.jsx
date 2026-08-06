@@ -14,7 +14,7 @@ function RegisterPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://restorentproject.onrender.com/api/auth/register",
         form,
         { withCredentials: true },
       );

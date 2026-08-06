@@ -18,9 +18,12 @@ function AdminUsersPage() {
     }
 
     try {
-      const response = await axios.get("http://localhost:5000/api/users", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://restorentproject.onrender.com/api/users",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setUsers(response.data.users || []);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to load users.");
@@ -41,7 +44,7 @@ function AdminUsersPage() {
     }
 
     try {
-      const url = `http://localhost:5000/api/users/${userId}/${action}`;
+      const url = `https://restorentproject.onrender.com/api/users/${userId}/${action}`;
       await axios.patch(
         url,
         {},
@@ -64,9 +67,12 @@ function AdminUsersPage() {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://restorentproject.onrender.com/api/users/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       toast.success("User deleted successfully");
       fetchUsers();
     } catch (err) {
