@@ -19,6 +19,7 @@ app.use(cors({
         const allowedOrigins = [
             /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/,
             /^https?:\/\/restorentproject\.onrender\.com$/,
+            /^https?:\/\/restorent-project-jade\.vercel\.app$/,
         ]
 
         const isAllowed = allowedOrigins.some((pattern) => pattern.test(origin))
