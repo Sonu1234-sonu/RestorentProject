@@ -16,8 +16,13 @@ app.use(cors({
             return
         }
 
-        const allowedLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/
-        if (allowedLocalhost.test(origin)) {
+        const allowedOrigins = [
+            /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/,
+            /^https?:\/\/restorentproject\.onrender\.com$/,
+        ]
+
+        const isAllowed = allowedOrigins.some((pattern) => pattern.test(origin))
+        if (isAllowed) {
             callback(null, true)
         } else {
             callback(new Error('CORS policy does not allow access from this origin'))
